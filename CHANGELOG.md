@@ -2,6 +2,14 @@
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
 - - -
+## 0.1.1 - 2026-04-24
+#### Bug Fixes
+- address JSR publishing issues - (2c06d10) - Nathan Blair
+#### Miscellaneous Chores
+- Add Mozilla Public License Version 2.0 - (e84b0ba) - Nathan Blair
+
+- - -
+
 ## 0.1.0 - 2026-04-24
 #### Features
 - initial commit - (fcf5fa4) - Nathan Blair
