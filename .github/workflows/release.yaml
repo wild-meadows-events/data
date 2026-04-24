@@ -1,0 +1,74 @@
+name: Release
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [default]
+    paths-ignore:
+      - CHANGELOG.md
+
+jobs:
+  version:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    outputs:
+      version: ${{ steps.current.outputs.version }}
+      bumped: ${{ steps.check.outputs.bumped }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+          token: ${{ github.token }}
+
+      - name: Configure git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Setup mise
+        uses: jdx/mise-action@v4
+
+      - name: Version Bump
+        run: cog bump --auto
+
+      - name: Current Version
+        id: current
+        run: echo "version=$(cog -v get-version)" >> "${GITHUB_OUTPUT}"
+
+      - name: Check if bumped
+        id: check
+        run: |
+          if [ "$(git rev-parse HEAD)" != "${{ github.sha }}" ]; then
+            echo "bumped=true" >> "${GITHUB_OUTPUT}"
+          else
+            echo "bumped=false" >> "${GITHUB_OUTPUT}"
+          fi
+
+      - name: Push bump commit
+        if: steps.check.outputs.bumped == 'true'
+        run: git push
+
+      - name: Push release tag
+        if: steps.check.outputs.bumped == 'true'
+        run: git push origin $(git describe --tags --abbrev=0)
+
+  publish:
+    needs: [version]
+    if: needs.version.outputs.bumped == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ needs.version.outputs.version }}
+
+      - name: Setup mise
+        uses: jdx/mise-action@v4
+
+      - name: Publish to JSR
+        run: deno publish --set-version ${{ needs.version.outputs.version }}

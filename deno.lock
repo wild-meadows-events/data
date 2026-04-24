@@ -1,0 +1,14 @@
+{
+	"version": "5",
+	"npm": {
+		"@cloudflare/workers-types@4.20260423.1": {
+			"integrity": "sha512-SHIc0NeJMtn0sW043eWtMxYFbJ9VPSLkcx+FEqCk0uZLD3HrWT+5xWhm6EYiOYDg0vnrlXNHcu2ly/01zDh3bw=="
+		}
+	},
+	"specifiers": {
+		"npm:@cloudflare/workers-types@*": "4.20260423.1"
+	},
+	"workspace": {
+		"dependencies": ["npm:@cloudflare/workers-types@*"]
+	}
+}
