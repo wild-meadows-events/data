@@ -1,11 +1,18 @@
-import type { D1Database } from "@cloudflare/workers-types"
+import type { D1Database, D1PreparedStatement, D1Result } from "@cloudflare/workers-types"
 
 import { assertMigrationsTableSchema } from "./assertions.ts"
 import { SafeIdentifier } from "./identifier.ts"
 import type { Migration, MigrationResult } from "./types.ts"
 
-export const DEFAULT_MIGRATIONS_TABLE: SafeIdentifier = SafeIdentifier.fromString("d1_migrations")
+export const DEFAULT_MIGRATIONS_TABLE: SafeIdentifier =
+  SafeIdentifier.fromString("d1_migrations")
 export const DEFAULT_STATEMENT_SEPARATOR = "--> statement-breakpoint"
+
+type MigrationResultPlanEntry = {
+  name: string
+  skipped: boolean
+  statementCount: number
+}
 
 export async function migrate(
   database: D1Database,
@@ -30,28 +37,45 @@ export async function migrate(
   ).results as { name: string }[]
 
   const done = new Set(migrationRows.map((row: { name: string }) => row.name))
-  const applied: string[] = []
-  const skipped: string[] = []
+
+  const statements: D1PreparedStatement[] = []
+  const resultPlan: MigrationResultPlanEntry[] = []
 
   for (const { name, sql } of migrations) {
     if (done.has(name)) {
-      skipped.push(name)
+      resultPlan.push({ name, skipped: true, statementCount: 0 })
       continue
     }
 
-    const statements = sql
+    const migrationStatements = sql
       .split(statementSeparator)
       .map((statement) => statement.trim())
       .filter((statement) => statement.length > 0)
       .map((statement) => database.prepare(statement))
 
-    await database.batch([
-      ...statements,
+    statements.push(
+      ...migrationStatements,
       database.prepare(`INSERT INTO ${tableName} (name) VALUES (?)`).bind(name),
-    ])
+    )
 
-    applied.push(name)
+    resultPlan.push({
+      name,
+      skipped: false,
+      statementCount: migrationStatements.length + 1,
+    })
+
+    done.add(name)
   }
 
-  return { applied, skipped }
+  const batchResults: D1Result[] =
+    statements.length > 0 ? await database.batch(statements) : []
+
+  let offset = 0
+
+  return resultPlan.map(({ name, skipped, statementCount }) => {
+    const results = batchResults.slice(offset, offset + statementCount)
+    offset += statementCount
+
+    return { name, results, skipped }
+  })
 }

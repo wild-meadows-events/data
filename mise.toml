@@ -1,4 +1,4 @@
 [tools]
+bun = "latest"
 cargo-binstall = "latest"
 "cargo:cocogitto" = "latest"
-deno = "latest"

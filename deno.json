@@ -1,7 +1,0 @@
-{
-  "exports": "./src/index.ts",
-  "name": "@wild-meadows-events/data",
-  "imports": {
-    "@cloudflare/workers-types": "npm:@cloudflare/workers-types@4"
-  }
-}
