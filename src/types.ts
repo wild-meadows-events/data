@@ -1,18 +1,28 @@
 import type { D1Result } from "@cloudflare/workers-types"
-import { z } from "zod"
+import { type ZodArray, type ZodObject, type ZodUnknown, z } from "zod"
 
 export type Migration = {
   name: string
   sql: string
 }
 
-export const MigrationResultEntrySchema = z.object({
+type MigrationResultEntrySchemaShape = {
+  name: ReturnType<typeof z.string>
+  results: ZodArray<ZodUnknown>
+  skipped: ReturnType<typeof z.boolean>
+}
+
+type MigrationResultEntrySchema = ZodObject<MigrationResultEntrySchemaShape>
+
+export const MigrationResultEntrySchema: MigrationResultEntrySchema = z.object({
   name: z.string(),
   results: z.array(z.unknown()),
   skipped: z.boolean(),
 })
 
-export const MigrationResultSchema = z.array(MigrationResultEntrySchema)
+export const MigrationResultSchema: ZodArray<MigrationResultEntrySchema> = z.array(
+  MigrationResultEntrySchema,
+)
 
 export type MigrationResultEntry = {
   name: string
