@@ -2,6 +2,12 @@
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
 - - -
+## 0.2.3 - 2026-04-25
+#### Bug Fixes
+- package version for JSR - (388a555) - Nathan Blair
+
+- - -
+
 ## 0.2.2 - 2026-04-25
 #### Bug Fixes
 - use zod validation in schema - (a94e8a8) - Nathan Blair
