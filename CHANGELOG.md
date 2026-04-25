@@ -2,6 +2,12 @@
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
 - - -
+## 0.2.5 - 2026-04-25
+#### Bug Fixes
+- explicit typings - (19f9743) - Nathan Blair
+
+- - -
+
 ## 0.2.4 - 2026-04-25
 #### Bug Fixes
 - install dependencies during CD - (065434c) - Nathan Blair
