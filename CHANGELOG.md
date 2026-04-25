@@ -2,6 +2,12 @@
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
 - - -
+## 0.2.4 - 2026-04-25
+#### Bug Fixes
+- install dependencies during CD - (065434c) - Nathan Blair
+
+- - -
+
 ## 0.2.3 - 2026-04-25
 #### Bug Fixes
 - package version for JSR - (388a555) - Nathan Blair
