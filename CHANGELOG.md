@@ -2,6 +2,12 @@
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
 - - -
+## 0.2.2 - 2026-04-25
+#### Bug Fixes
+- use zod validation in schema - (a94e8a8) - Nathan Blair
+
+- - -
+
 ## 0.2.1 - 2026-04-25
 #### Bug Fixes
 - remove read-only migration types - (92a6de5) - Nathan Blair
