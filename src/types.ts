@@ -8,7 +8,7 @@ export type Migration = {
 export type MigrationResultEntry = {
   name: string
   skipped: boolean
-  results: readonly D1Result[]
+  results: D1Result[]
 }
 
-export type MigrationResult = readonly MigrationResultEntry[]
+export type MigrationResult = MigrationResultEntry[]
