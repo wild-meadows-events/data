@@ -3,8 +3,11 @@
   "configVersion": 1,
   "workspaces": {
     "": {
+      "dependencies": {
+        "zod": "^4.3.6",
+      },
       "devDependencies": {
-        "@cloudflare/workers-types": "^4.20260424.1",
+        "@cloudflare/workers-types": "<5.0.0",
         "jsr": "^0.14.3",
       },
     },
@@ -17,5 +20,7 @@
     "node-stream-zip": ["node-stream-zip@1.15.0", "", {}, "sha512-LN4fydt9TqhZhThkZIVQnF9cwjU3qmUH9h78Mx/K7d3VvfRqqwthLwJEUOEL0QPZ0XQmNN7be5Ggit5+4dq3Bw=="],
 
     "semiver": ["semiver@1.1.0", "", {}, "sha512-QNI2ChmuioGC1/xjyYwyZYADILWyW6AmS1UH6gDj/SFUUUS4MBAWs/7mxnkRPc/F4iHezDP+O8t0dO8WHiEOdg=="],
+
+    "zod": ["zod@4.3.6", "", {}, "sha512-rftlrkhHZOcjDwkGlnUtZZkvaPHCsDATp4pGpuOOMDaTdDDXF91wuVDJoWoPsKX/3YPQ5fHuF3STjcYyKr+Qhg=="],
   }
 }
